@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE MILLION DOLLAR LANDMASS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<div class="side-controls">
+    <button class="control-btn" title="Search" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
+    <button class="control-btn" id="plusBtn" title="Zoom In"><i class="fas fa-plus"></i></button>
+    <button class="control-btn" id="minusBtn" title="Zoom Out"><i class="fas fa-minus"></i></button>
+    <button class="control-btn" onclick="resetView()" title="Home"><i class="fas fa-home"></i></button>
+</div>
+
+<div id="search-panel" class="search-hidden">
+    <input type="number" id="searchInput" placeholder="Enter Plot # (1-100000)" onkeydown="if(event.key==='Enter') searchPixel()">
+    <div id="searchResult" class="result-box"></div>
+</div>
+
+<header class="main-header">
+    <div class="top-bar">
+        <div class="payment-section">
+            <button class="pay-btn binance" onclick="copyText('912221034')">BINANCE ID: 912221034 <i class="far fa-copy"></i></button>
+            <button class="pay-btn usdt" onclick="copyText('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">USDT (TRC20) <i class="far fa-copy"></i></button>
+        </div>
+        <div class="social-links">
+            <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="tg"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#" class="wa"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </div>
+    <div class="hero-section">
+        <h1 class="brand-title">THE MILLION DOLLAR LANDMASS</h1>
+        <p class="promo-text">100,000 DIGITAL BLOCKS | $10 PER PLOT | SECURE YOUR LEGACY</p>
+    </div>
+</header>
+
+<main class="map-wrapper">
+    <div id="viewport">
+        <div id="mover"><canvas id="mainCanvas"></canvas></div>
+    </div>
+</main>
+
+<div class="nav-bar">
+    <div class="stats">PLOTS SOLD: <span id="sold-count">0</span> / 100,000</div>
+    <a href="order.html" class="buy-now-btn">SECURE YOUR PLOT ($10)</a>
+</div>
+
+<footer class="notice-footer">
+    <p>THE MILLION DOLLAR LANDMASS © 2005 KAWSAR Tew. All rights reserved. I am not responsible for the content of external sites. Images featured on LANDMASS are © of their respective owners.</p>
+</footer>
+
+<a href="https://wa.me/8801576940717" class="wa-float" target="_blank">
+    <i class="fab fa-whatsapp"></i> <span class="wa-label">SUPPORT</span>
+</a>
+
+<script src="script.js"></script>
+</body>
+</html>
