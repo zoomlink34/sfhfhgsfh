@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #f0f0f0; font-family: sans-serif; padding: 40px; }
+        .card { background: #fff; border: 2px solid #000; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+        input { width: 300px; padding: 10px; margin: 10px 0; border: 1px solid #000; }
+        .btn-acc { background: green; color: #fff; padding: 10px 20px; border: none; cursor: pointer; }
+        .btn-rej { background: red; color: #fff; padding: 10px 20px; border: none; cursor: pointer; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <div id="auth" style="text-align:center; margin-top:100px;">
+        <h2>ADMIN LOGIN</h2>
+        <input type="password" id="p" placeholder="Password">
+        <button onclick="login()">Enter</button>
+    </div>
+    <div id="content" style="display:none;">
+        <h1>PENDING ORDERS</h1>
+        <div id="list"></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        function login() { if(document.getElementById('p').value === "KAWSARahmed22@@") { document.getElementById('auth').style.display='none'; document.getElementById('content').style.display='block'; load(); } }
+        function load() {
+            firebase.initializeApp({databaseURL: "https://the-10-million-pixels-plus-default-rtdb.firebaseio.com/"});
+            firebase.database().ref('pending_orders').on('value', s => {
+                const list = document.getElementById('list'); list.innerHTML = "";
+                const data = s.val(); if(!data) return;
+                Object.keys(data).forEach(id => {
+                    list.innerHTML += `<div class="card">
+                        <h3>Brand: ${data[id].name} (#${data[id].plotID})</h3>
+                        <input type="text" id="img_${id}" placeholder="Logo Link">
+                        <input type="text" id="web_${id}" placeholder="Website Link"><br>
+                        <button class="btn-acc" onclick="action('${id}', 'approve')">ACCEPT</button>
+                        <button class="btn-rej" onclick="action('${id}', 'reject')">REJECT</button>
+                    </div>`;
+                });
+            });
+        }
+        function action(id, type) {
+            const db = firebase.database();
+            if(type === 'reject') { db.ref('pending_orders/'+id).remove(); }
+            else {
+                const img = document.getElementById('img_'+id).value;
+                const web = document.getElementById('web_'+id).value;
+                db.ref('pending_orders/'+id).once('value', s => {
+                    let d = s.val(); d.imageUrl = img; d.link = web;
+                    db.ref('pixels/'+id).set(d).then(() => db.ref('pending_orders/'+id).remove());
+                });
+            }
+        }
+    </script>
+</body>
+</html>
