@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body style="background:#f9f9f9; display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif;">
+    <div id="order-form" style="background:#fff; border:2px solid #000; padding:40px; text-align:center; width:350px;">
+        <h2>RESERVE YOUR PLOT</h2>
+        <input type="text" id="brand" placeholder="Enter Brand Name" style="width:90%; padding:15px; margin:20px 0; border:1px solid #000;">
+        <button onclick="submit()" style="width:100%; padding:15px; background:#cc0000; color:#fff; border:none; cursor:pointer; font-weight:bold;">CONFIRM ORDER</button>
+    </div>
+    <div id="success" style="display:none; text-align:center;">
+        <h1 style="color:green;">SUCCESSFUL!</h1>
+        <p>Your order has been submitted to CEO Kawsar.</p>
+        <button onclick="window.location.href='index.html'" style="padding:10px 20px;">GO BACK</button>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://the-10-million-pixels-plus-default-rtdb.firebaseio.com/"});
+        function submit() {
+            const n = document.getElementById('brand').value;
+            if(!n) return alert("Enter Name");
+            const id = Math.floor(Math.random()*100000)+1;
+            firebase.database().ref('pending_orders/'+Date.now()).set({name:n, plotID:id, x:(id%316)*100, y:Math.floor(id/316)*60})
+            .then(() => { document.getElementById('order-form').style.display='none'; document.getElementById('success').style.display='block'; });
+        }
+    </script>
+</body>
+</html>
